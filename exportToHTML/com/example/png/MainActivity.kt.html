@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>MainActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ed864a;}
+.s1 { color: #ebebeb;}
+.s2 { color: #7ec3e6;}
+.s3 { color: #54b33e;}
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.mealsugeestionapp</span>
+
+<span class="s1">import android.os.Bundle</span>
+<span class="s1">import android.widget.Button</span>
+<span class="s1">import android.widget.EditText</span>
+<span class="s1">import android.widget.ImageView</span>
+<span class="s1">import android.widget.TextView</span>
+<span class="s1">import androidx.appcompat.app.AppCompatActivity</span>
+
+
+<span class="s0">class </span><span class="s1">MainActivity : AppCompatActivity() {</span>
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate(savedInstanceState: Bundle?) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span>
+
+        <span class="s0">val </span><span class="s1">timeInput = findViewById&lt;EditText&gt;(R.id.timeInput)</span>
+        <span class="s0">val </span><span class="s1">suggestButton = findViewById&lt;Button&gt;(R.id.suggestButton)</span>
+        <span class="s0">val </span><span class="s1">resetButton = findViewById&lt;Button&gt;(R.id.resetButton)</span>
+        <span class="s0">val </span><span class="s1">suggestionText = findViewById&lt;TextView&gt;(R.id.suggestionText)</span>
+        <span class="s0">val </span><span class="s1">mealImage = findViewById&lt;ImageView&gt;(R.id.mealImage)</span>
+
+        <span class="s1">suggestButton.setOnClickListener {</span>
+            <span class="s0">val </span><span class="s1">timeOfDay = timeInput.text.toString().trim().lowercase()</span>
+            <span class="s0">val </span><span class="s1">mealSuggestion = getMealSuggestion(timeOfDay)</span>
+            <span class="s1">suggestionText.text = mealSuggestion</span>
+
+            <span class="s2">// Set the corresponding image</span>
+            <span class="s0">val </span><span class="s1">imageResource = getMealImage(timeOfDay)</span>
+            <span class="s1">mealImage.setImageResource(imageResource)</span>
+        <span class="s1">}</span>
+
+        <span class="s1">resetButton.setOnClickListener {</span>
+            <span class="s1">timeInput.text.clear()</span>
+            <span class="s1">suggestionText.text = </span><span class="s3">&quot;&quot;</span>
+            <span class="s1">mealImage.setImageResource(R.drawable.placeholder) </span><span class="s2">// Reset to default image</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">getMealSuggestion(timeOfDay: String): String {</span>
+        <span class="s0">return when </span><span class="s1">(timeOfDay) {</span>
+            <span class="s3">&quot;06:00 to 09:00&quot; </span><span class="s1">-&gt; </span><span class="s3">&quot;How about some pancakes and coffee or cereal&quot;</span>
+            <span class="s3">&quot;09:00 to 11:00&quot; </span><span class="s1">-&gt; </span><span class="s3">&quot;A smoothie or fruit salad would be great!&quot;</span>
+            <span class="s3">&quot;12:00 to 14:00&quot; </span><span class="s1">-&gt; </span><span class="s3">&quot;Try a healthy sandwich or a burger with a fresh juice&quot;</span>
+            <span class="s3">&quot;14:00 to 16:00&quot; </span><span class="s1">-&gt; </span><span class="s3">&quot;Maybe some cookies and a cup of tea or fresh juice?&quot;</span>
+            <span class="s3">&quot;17:00 to 19:00&quot; </span><span class="s1">-&gt; </span><span class="s3">&quot;Grilled chicken with veggies or pasta and mince would be great.&quot;</span>
+            <span class="s3">&quot;19:00 to 21:00&quot; </span><span class="s1">-&gt; </span><span class="s3">&quot;How about ice cream or malva pudding&quot;</span>
+            <span class="s0">else </span><span class="s1">-&gt; </span><span class="s3">&quot;Please enter a valid time of day.&quot;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">private </span><span class="s0">fun  </span><span class="s1">getMealImage(timeOfDay: String) : Int {</span>
+        <span class="s0">return when </span><span class="s1">(timeOfDay) {</span>
+          <span class="s3">&quot;06:00 to 09:00&quot; </span><span class="s1">-&gt; R.drawable.breakfast</span>
+          <span class="s3">&quot;09:00 to 11:00&quot; </span><span class="s1">-&gt; R.drawable.midmorning</span>
+          <span class="s3">&quot;12:00 to 14:00&quot; </span><span class="s1">-&gt; R.drawable.afternoon</span>
+          <span class="s3">&quot;14:00 to 16:00&quot; </span><span class="s1">-&gt; R.drawable.midafternoon</span>
+          <span class="s3">&quot;17:00 to 19:00&quot; </span><span class="s1">-&gt; R.drawable.dinner</span>
+          <span class="s3">&quot;19:00 to 21:00&quot; </span><span class="s1">-&gt; R.drawable.afterdinner</span>
+          <span class="s0">else </span><span class="s1">-&gt; R.drawable.placeholder</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
